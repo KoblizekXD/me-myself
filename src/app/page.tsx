@@ -9,7 +9,7 @@ import Link from "next/link";
 import './globals.css'
 import { ReactNode, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDiscord, faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
+import { faDiscord, faGithub, faJava, faJs, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 
 const SummonButton = ({ className, children, onClick }: { className?: string; children?: ReactNode, onClick?: () => void }) => {
   const [color, setColor] = useState<string | null>('text-red-400');
@@ -28,6 +28,7 @@ const SummonButton = ({ className, children, onClick }: { className?: string; ch
 export default function Home() {
   const [aboutVisible, setAboutVisible] = useState<'visible' | 'hidden' | 'undefined'>('visible');
   const [skillsVisible, setSkillsVisible] = useState<'visible' | 'hidden' | 'undefined'>('hidden');
+  const [projectsVisible, setProjectsVisible] = useState<'visible' | 'hidden' | 'undefined'>('hidden');
   const [contactsVisible, setContactsVisible] = useState<'visible' | 'hidden' | 'undefined'>('hidden');
   const [terminalVisible, setTerminalVisible] = useState<'visible' | 'hidden' | 'undefined'>('hidden');
   const [sentCommands, setSentCommands] = useState<string[]>([]);
@@ -35,6 +36,10 @@ export default function Home() {
 
   return (
     <main className="bg-[#1E1E2E] flex flex-col items-center w-screen h-screen">
+      <h1 className="absolute left-4 font-extrabold text-5xl brightness-[30%] top-12">We love Java :3</h1>
+      <div className="absolute bottom-0 right-0">
+        <Image src={'/java2.png'} alt="Java :(" width={1050} className='brightness-[50%]' height={32} />
+      </div>
       <nav className="w-full font-semibold gap-x-4 py-2 flex select-none px-2 bg-[#11111B] rounded-b">
         <SummonButton onClick={() => {
           setAboutVisible('visible');
@@ -42,7 +47,9 @@ export default function Home() {
         <SummonButton onClick={() => {
           setSkillsVisible('visible');
         }}>Skills</SummonButton>
-        <SummonButton>Projects</SummonButton>
+        <SummonButton onClick={() => {
+          setProjectsVisible('visible');
+        }}>Projects</SummonButton>
         <SummonButton onClick={() => {
           setContactsVisible('visible');
         }}>Contacts</SummonButton>
@@ -187,6 +194,62 @@ export default function Home() {
             </tr>
           </tbody>
         </table>
+      </Window>
+      <Window visiblityChanged={v => {
+        if (projectsVisible === 'visible')
+          setProjectsVisible(v === 'hidden' ? 'hidden' : 'visible');
+      }} visible={projectsVisible} className="p-4 flex flex-col gap-y-2" title="My projects">
+        <h1 className="text-2xl font-extrabold text-orange-400">My projects</h1>
+        <p>
+          Here are some of my projects I've worked on. Some of them are 
+          not really finished but I'm still proud of them, given they thaught me alot.
+        </p>
+        <div className="flex relative flex-col bg-[url('/image.png')]">
+          <div className="absolute inset-0 bg-black/70"></div>
+          <div className="relative z-10">
+            <Link href={'https://www.github.com/KoblizekXD/byte-lens'} className="text-lg underline text-blue-400 flex gap-x-2 font-extrabold">
+              ByteLens
+              <span>
+                <FontAwesomeIcon size='lg' icon={faJava} />
+              </span>
+            </Link>
+            <div className="flex">
+              <p className='basis-1/2 font-bold'>
+                Simple Java bytecode viewer written in Java and utilizes JavaFX for the GUI.
+                This project was created to help me understand how Java bytecode & JavaFX works.
+                Is capable of loading IntelliJ IDEA icons and creating projects.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col">
+            <Link href={'https://www.github.com/Chigga-Solutions/Cock-Down-Shooter'} className="text-lg underline text-yellow-300 flex gap-x-2 font-extrabold">
+              Cock Down Shooter
+              <span>
+                <FontAwesomeIcon size='lg' icon={faJs} />
+              </span>
+            </Link>
+            <div className="flex">
+              <p className='basis-1/2 font-bold'>
+                Simple game about shooting down chicken. Has working login system with
+                leaderboard.
+              </p>
+            </div>
+        </div>
+        <div className="flex flex-col">
+            <Link href={'https://www.github.com/KoblizekXD/gdt-gen'} className="text-lg underline text-yellow-300 flex gap-x-2 font-extrabold">
+              GDT Entry generator
+              <span>
+                <FontAwesomeIcon size='lg' icon={faJs} />
+              </span>
+            </Link>
+            <div className="flex">
+              <p className='basis-1/2 font-bold'>
+                Quick and simple project to try out Astro. Is able to generate GDT entries for
+                your operating system.
+              </p>
+            </div>
+        </div>
       </Window>
       <Window visiblityChanged={v => {
         if (terminalVisible === 'visible')
