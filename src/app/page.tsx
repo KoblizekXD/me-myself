@@ -32,7 +32,7 @@ export default function Home() {
   const [contactsVisible, setContactsVisible] = useState<'visible' | 'hidden' | 'undefined'>('hidden');
   const [terminalVisible, setTerminalVisible] = useState<'visible' | 'hidden' | 'undefined'>('hidden');
   const [sentCommands, setSentCommands] = useState<string[]>([]);
-  const [topZIndex, setZIndex] = useState(1);
+  // const [topZIndex, setZIndex] = useState(1);
 
   return (
     <main className="bg-[#1E1E2E] flex flex-col items-center w-screen h-screen">
@@ -68,19 +68,19 @@ export default function Home() {
       }} visible={aboutVisible} className="flex" title="aa55h - @koblizekxd">
         <div className="flex flex-col gap-y-2 basis-1/3 justify-center items-center">
           <Image width={128} height={128} className="rounded-xl" src={'https://github.com/KoblizekXD.png'} alt="Not found!" />
-          <h1 className={'text-xl font-bold text-yellow-400'}>Hey! That's me!</h1>
+          <h1 className={'text-xl font-bold text-yellow-400'}>Hey! That&apos;s me!</h1>
           <h2 className={'font-semibold text-blue-400'}>@aa55h</h2>
         </div>
         <div className="flex-1 flex flex-col gap-y-1 py-2 px-4">
           <h1 className={'font-bold text-2xl text-green-500'}># About me</h1>
           <div>
-            Hi! I'm aa55h, a young developer from <Tooltip tooltip={<div>Yes</div>}>Czech Republic</Tooltip>. Great to see you around!
+            Hi! I&apos;m aa55h, a young developer from <Tooltip tooltip={<div>Yes</div>}>Czech Republic</Tooltip>. Great to see you around!
             This is my personal website where I share my projects and other stuff. Take 
             a look around if you want to know more about me!
           </div>
           <h1 className={'font-bold text-2xl text-green-500'}># Notable Projects</h1>
           <p>
-            Throughout my coding journey, I've worked on quite a few projects. Here are some of them:
+            Throughout my coding journey, I&apos;ve worked on quite a few projects. Here are some of them:
           </p>
           <ul className="font-semibold gap-y-1 flex flex-col">
             <li className="flex">
@@ -201,8 +201,8 @@ export default function Home() {
       }} visible={projectsVisible} className="p-4 flex flex-col gap-y-2" title="My projects">
         <h1 className="text-2xl font-extrabold text-orange-400">My projects</h1>
         <p>
-          Here are some of my projects I've worked on. Some of them are 
-          not really finished but I'm still proud of them, given they thaught me alot.
+          Here are some of my projects I&apos;ve worked on. Some of them are 
+          not really finished but I&apos;m still proud of them, given they thaught me alot.
         </p>
         <div className="flex relative flex-col bg-[url('/image.png')]">
           <div className="absolute inset-0 bg-black/70"></div>

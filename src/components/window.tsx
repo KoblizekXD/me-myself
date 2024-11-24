@@ -22,7 +22,7 @@ export function Window({ title = "Window", children, className, zIndex = 1, visi
     const handleMouseMove = (e: MouseEvent) => {
       if (isDragging && windowRef.current) {
         // TODO: Fix this window dragging
-        const left = parseInt(windowRef.current.style.left) - windowRef.current.clientWidth / 2;
+        // const left = parseInt(windowRef.current.style.left) - windowRef.current.clientWidth / 2;
         windowRef.current.style.left = `${e.clientX + (windowRef.current.clientWidth / 2) - 200}px`;
         windowRef.current.style.top = `${e.clientY + (windowRef.current.clientHeight / 2) - 10}px`;
       }

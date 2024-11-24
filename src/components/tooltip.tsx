@@ -12,11 +12,11 @@ export function Tooltip({ children, className, tooltip }: TooltipProps) {
   const [showTooltip, setShowTooltip] = useState(false);
   const tooltipRef = useRef<HTMLDivElement>(null);
 
-  const mouseOver = (e: MouseEvent) => {
+  const mouseOver = () => {
     setShowTooltip(true);
   }
 
-  const mouseOut = (e: MouseEvent) => {
+  const mouseOut = () => {
     setShowTooltip(false);
   }
 
