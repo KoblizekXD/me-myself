@@ -8,9 +8,10 @@ interface WindowProps {
   className?: string;
   visible?: 'visible' | 'hidden' | 'undefined';
   visiblityChanged?: (visible: 'visible' | 'hidden') => void;
+  keyEvent?: (e: KeyboardEvent) => void;
 }
 
-export function Window({ title = "Window", children, className, visible = 'undefined', visiblityChanged }: WindowProps) {
+export function Window({ title = "Window", children, className, visible = 'undefined', visiblityChanged, keyEvent }: WindowProps) {
   const [isMaximized, setIsMaximized] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
@@ -25,8 +26,8 @@ export function Window({ title = "Window", children, className, visible = 'undef
     };
 
     const handleKeyPress = (e: KeyboardEvent) => {
-      console.log(e.key);
-      
+      keyEvent?.(e);
+
       if (e.key === 'Escape') {
         setIsDragging(false);
       }
@@ -55,7 +56,7 @@ export function Window({ title = "Window", children, className, visible = 'undef
   }, [visible]);
 
   return (
-    <div onMouseUp={() => setIsDragging(false)} ref={windowRef} className={`rounded-xl duration-200 ${hidden ? 'opacity-0 invisible' : 'opacity-100 visible'} flex flex-col transition-[opacity,visibility] absolute ${isMaximized ? 'w-full h-full left-0 top-0' : 'w-1/2 min-h-1/2 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'} select-none shadow bg-[#181825]`}>
+    <div onMouseUp={() => setIsDragging(false)} ref={windowRef} className={`rounded-xl border border-[#11111B] duration-200 ${hidden ? 'opacity-0 invisible' : 'opacity-100 visible'} flex flex-col transition-[opacity,visibility] absolute ${isMaximized ? 'w-full h-full left-0 top-0' : 'w-1/2 min-h-1/2 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'} select-none shadow bg-[#181825]`}>
       <div onMouseDown={() => {
         setIsMaximized(false);
         setIsDragging(true);

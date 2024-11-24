@@ -8,6 +8,8 @@ import Image from "next/image";
 import Link from "next/link";
 import './globals.css'
 import { ReactNode, useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDiscord, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 
 const SummonButton = ({ className, children, onClick }: { className?: string; children?: ReactNode, onClick?: () => void }) => {
   const [color, setColor] = useState<string | null>('text-red-400');
@@ -26,6 +28,9 @@ const SummonButton = ({ className, children, onClick }: { className?: string; ch
 export default function Home() {
   const [aboutVisible, setAboutVisible] = useState<'visible' | 'hidden' | 'undefined'>('visible');
   const [skillsVisible, setSkillsVisible] = useState<'visible' | 'hidden' | 'undefined'>('hidden');
+  const [contactsVisible, setContactsVisible] = useState<'visible' | 'hidden' | 'undefined'>('hidden');
+  const [terminalVisible, setTerminalVisible] = useState<'visible' | 'hidden' | 'undefined'>('hidden');
+  const [sentCommands, setSentCommands] = useState<string[]>([]);
 
   return (
     <main className="bg-[#1E1E2E] flex flex-col items-center w-screen h-screen">
@@ -37,7 +42,12 @@ export default function Home() {
           setSkillsVisible('visible');
         }}>Skills</SummonButton>
         <SummonButton>Projects</SummonButton>
-        <SummonButton>Contacts</SummonButton>
+        <SummonButton onClick={() => {
+          setContactsVisible('visible');
+        }}>Contacts</SummonButton>
+        <SummonButton onClick={() => {
+          setTerminalVisible('visible');
+        }}>Terminal</SummonButton>
         <div className="ml-auto flex items-center gap-x-2 justify-center">
           <Tooltip tooltip={<h1>I live in UTC+1 by the way</h1>}>
             <Clock />
@@ -139,6 +149,55 @@ export default function Home() {
             Forced to use it in school. I hate it.
           </p>
         </Progress>
+      </Window>
+      <Window visiblityChanged={v => {
+        if (contactsVisible === 'visible')
+          setContactsVisible(v === 'hidden' ? 'hidden' : 'visible');
+      }} visible={contactsVisible} className="p-4 flex flex-col gap-y-4" title="Contacts">
+        <h1 className={'text-xl font-bold text-violet-400'}>Okay, so you want to contact me...</h1>
+        <p>
+          There are multiple social media platforms where you can contact me.
+        </p>
+        <table className="max-w-fit">
+          <tbody>
+            <tr className="*:p-2">
+              <td>
+                <FontAwesomeIcon size="2xl" icon={faDiscord} />
+              </td>
+              <td>
+                <a href="https://discord.com/users/292358214258825472" target="_blank" className="font-bold text-blue-500">@aa55h</a>
+              </td>
+            </tr>
+            <tr className="*:p-2">
+              <td className="flex justify-center items-center">
+                <FontAwesomeIcon size="2xl" icon={faLinkedin} />
+              </td>
+              <td>
+                <Link href="https://www.linkedin.com/in/jprokupek" target="_blank" className="font-bold text-blue-500">@jprokupek</Link>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </Window>
+      <Window visiblityChanged={v => {
+        if (terminalVisible === 'visible')
+          setTerminalVisible(v === 'hidden' ? 'hidden' : 'visible');
+      }} visible={terminalVisible} className="min-h-[50vh] flex flex-col p-2" title="Terminal">
+        <div className="flex flex-col">
+          {sentCommands.map((cmd, i) => (
+            <div key={i} className="flex gap-x-1 text-gray-400">
+              {cmd}
+            </div>
+          ))}
+        </div>
+        <form onSubmit={e => {
+          e.preventDefault();
+          setSentCommands([...sentCommands, `[aa55h@arch ~]$ ${new FormData(e.currentTarget).get('command')}`]);
+          e.currentTarget.reset();
+        }} action={''} className="flex gap-x-2">
+          [aa55h@arch ~]$
+          <input name="command" type="text" className='border-0 outline-none bg-transparent' />
+        </form>
       </Window>
     </main>
   );
