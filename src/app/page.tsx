@@ -1,12 +1,33 @@
 'use client';
 
+import { Clock } from "@/components/clock";
 import { Window } from "@/components/window";
+import { randomColor, randomFrom } from "@/utils/utils";
 import Image from "next/image";
 import Link from "next/link";
+import { ReactNode, useState } from "react";
+
+const SummonButton = ({ className, children }: { className?: string; children?: ReactNode }) => {
+  const [color] = useState(randomColor());
+
+  return (
+    <div className={`cursor-pointer underline ${className} ${color}`} suppressHydrationWarning>
+      {children}
+    </div>
+  );
+}
 
 export default function Home() {
   return (
-    <main className="bg-[#1E1E2E] flex flex-col justify-center items-center w-screen h-screen">
+    <main className="bg-[#1E1E2E] flex flex-col items-center w-screen h-screen">
+      <nav className="w-full font-semibold gap-x-4 py-2 flex px-2 bg-[#11111B] rounded-b">
+        <SummonButton>About me</SummonButton>
+        <SummonButton>Skills</SummonButton>
+        <SummonButton>Projects</SummonButton>
+        <div className="ml-auto flex items-center gap-x-2 justify-center">
+          <Clock />
+        </div>
+      </nav>
       <Window className="flex" title="aa55h - @koblizekxd">
         <div className="flex flex-col gap-y-2 basis-1/3 justify-center items-center">
           <Image width={128} height={128} className="rounded-xl" src={'https://github.com/KoblizekXD.png'} alt="Not found!" />
