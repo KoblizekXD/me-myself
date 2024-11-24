@@ -6,36 +6,48 @@ import { Window } from "@/components/window";
 import { randomColor } from "@/utils/utils";
 import Image from "next/image";
 import Link from "next/link";
+import './globals.css'
 import { ReactNode, useEffect, useState } from "react";
 
-const SummonButton = ({ className, children }: { className?: string; children?: ReactNode }) => {
-  const [color, setColor] = useState<string | null>('text-green-400');
+const SummonButton = ({ className, children, onClick }: { className?: string; children?: ReactNode, onClick?: () => void }) => {
+  const [color, setColor] = useState<string | null>('text-red-400');
 
   useEffect(() => {
     setColor(randomColor());
   }, []);
 
   return (
-    <div className={`cursor-pointer underline ${color} ${className}`}>
+    <div onClick={onClick} className={`cursor-pointer underline ${color} ${className}`}>
       {children}
     </div>
   );
 }
 
 export default function Home() {
+  const [aboutVisible, setAboutVisible] = useState<'visible' | 'hidden' | 'undefined'>('visible');
+  const [skillsVisible, setSkillsVisible] = useState<'visible' | 'hidden' | 'undefined'>('hidden');
+
   return (
     <main className="bg-[#1E1E2E] flex flex-col items-center w-screen h-screen">
       <nav className="w-full font-semibold gap-x-4 py-2 flex select-none px-2 bg-[#11111B] rounded-b">
-        <SummonButton>About me</SummonButton>
-        <SummonButton>Skills</SummonButton>
+        <SummonButton onClick={() => {
+          setAboutVisible('visible');
+        }}>About me</SummonButton>
+        <SummonButton onClick={() => {
+          setSkillsVisible('visible');
+        }}>Skills</SummonButton>
         <SummonButton>Projects</SummonButton>
+        <SummonButton>Contacts</SummonButton>
         <div className="ml-auto flex items-center gap-x-2 justify-center">
           <Tooltip tooltip={<h1>I live in UTC+1 by the way</h1>}>
             <Clock />
           </Tooltip>
         </div>
       </nav>
-      <Window className="flex" title="aa55h - @koblizekxd">
+      <Window visiblityChanged={v => {
+        if (aboutVisible === 'visible')
+          setAboutVisible(v === 'hidden' ? 'hidden' : 'visible');
+      }} visible={aboutVisible} className="flex" title="aa55h - @koblizekxd">
         <div className="flex flex-col gap-y-2 basis-1/3 justify-center items-center">
           <Image width={128} height={128} className="rounded-xl" src={'https://github.com/KoblizekXD.png'} alt="Not found!" />
           <h1 className={'text-xl font-bold text-yellow-400'}>Hey! That's me!</h1>
@@ -54,19 +66,19 @@ export default function Home() {
           </p>
           <ul className="font-semibold gap-y-1 flex flex-col">
             <li className="flex">
-              <Link className="underline" href={'https://www.github.com/KoblizekXD/byte-lens'}>
+              <Link target='_blank' className="underline" href={'https://www.github.com/KoblizekXD/byte-lens'}>
                 ByteLens
               </Link>
               &nbsp;- Simple Java bytecode viewer written in JavaFX.
             </li>
             <li>
-              <Link className="underline" href={'https://www.github.com/Chigga-Solutions/Cock-Down-Shooter'}>
+              <Link target='_blank' className="underline" href={'https://www.github.com/Chigga-Solutions/Cock-Down-Shooter'}>
                 Cock Down Shooter
               </Link>
               &nbsp;- Online game about shooting down chicken!
             </li>
             <li>
-              <Link className="underline" href={'https://github.com/KoblizekXD/myedu'}>
+              <Link target='_blank' className="underline" href={'https://github.com/KoblizekXD/myedu'}>
                 MyEdu
               </Link>
               &nbsp;- Simple grading software
@@ -77,6 +89,66 @@ export default function Home() {
           </p>
         </div>
       </Window>
+      <Window visiblityChanged={v => {
+        if (skillsVisible === 'visible')
+          setSkillsVisible(v === 'hidden' ? 'hidden' : 'visible');
+      }} visible={skillsVisible} className={'px-12 py-4'} title={'Skills'}>
+        <h1 className={'text-xl font-bold text-green-400'}># My skills</h1>
+        <p>
+          Here are things I have worked throughout my years of coding.
+        </p>
+        <Progress value={80}>
+          <h1 className="font-extrabold text-lg">Java</h1>
+          <p>
+            ASM, Bukkit, Spring Boot, JavaFX, Gradle Plugin API
+          </p>
+        </Progress>
+        <Progress color="text-blue-500" value={70}>
+          <h1 className="font-extrabold text-lg">Web Development</h1>
+          <p>
+            HTML, CSS, JavaScript, React, Next.js, TailwindCSS
+          </p>
+        </Progress>
+        <Progress color="text-violet-700" value={60}>
+          <h1 className="font-extrabold text-lg">C#/.NET</h1>
+          <p>
+            C#, Windows Forms, WinUI3
+          </p>
+        </Progress>
+        <Progress color="text-gray-500" value={40}>
+          <h1 className="font-extrabold text-lg">C</h1>
+          <p>
+            Mild knowledge in Win32 API, Raylib
+          </p>
+        </Progress>
+        <Progress color="text-gray-500" value={40}>
+          <h1 className="font-extrabold text-lg">Linux</h1>
+          <p>
+            Knowledge in Linux, systemd commands, bash scripting(I use Arch btw), System V ABI
+          </p>
+        </Progress>
+        <Progress color="text-gray-700" value={10}>
+          <h1 className="font-extrabold text-lg">OS Development</h1>
+          <p>
+            Includes: Makefiles, x86-64 Linux assembly, C
+          </p>
+        </Progress>
+        <Progress color="text-purple-300" value={3}>
+          <h1 className="font-extrabold text-lg">PHP</h1>
+          <p>
+            Forced to use it in school. I hate it.
+          </p>
+        </Progress>
+      </Window>
     </main>
+  );
+}
+
+const Progress = ({value, children, color = 'text-green-500'}: {value: number, children: ReactNode, color?: string}) => {
+  return (
+    <label>
+      {children}
+      <progress value={value} max={100} className={`w-full rounded ${color} bg-transparent appearance-none`} />
+    </label>
   );
 }

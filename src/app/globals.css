@@ -19,3 +19,13 @@ body {
   background: var(--background);
   font-family: 'JetBrains Mono Variable', monospace;
 }
+
+progress::-webkit-progress-value {
+  background-color: currentColor;
+  border-radius: 0.25rem;
+}
+
+progress::-moz-progress-bar {
+  background-color: currentColor !important;
+  border-radius: 0.25rem !important;
+}
