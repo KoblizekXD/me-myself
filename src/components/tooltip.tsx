@@ -21,7 +21,7 @@ export function Tooltip({ children, className, tooltip }: TooltipProps) {
   }
 
   const mouseMove = (e: MouseEvent) => {
-    if (showTooltip && tooltipRef.current) {
+    if (showTooltip && tooltipRef.current) {     
       tooltipRef.current.style.left = `${e.clientX + 15}px`;
       tooltipRef.current.style.top = `${e.clientY + 15}px`;
     }
@@ -29,9 +29,11 @@ export function Tooltip({ children, className, tooltip }: TooltipProps) {
 
   return (
     <span onMouseMove={mouseMove} onMouseOut={mouseOut} onMouseOver={mouseOver}>
-      <div ref={tooltipRef} hidden={!showTooltip} className={`absolute p-1 text-slate-200 rounded bg-black ${className}`}>
-        {tooltip}
-      </div>
+      {showTooltip &&
+        <div ref={tooltipRef} hidden={!showTooltip} className={`fixed pointer-events-none p-1 text-slate-200 rounded bg-black ${className}`}>
+          {tooltip}
+        </div>
+      }
       {children}
     </span>
   )

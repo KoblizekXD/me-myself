@@ -38,7 +38,7 @@ export function Window({ title = "Window", children, className }: WindowProps) {
   }, [isDragging]);
 
   return (
-    <div onMouseUp={() => setIsDragging(false)} ref={windowRef} className={`rounded-xl flex flex-col transition-transform absolute ${isMaximized ? 'w-full h-full left-0 top-0' : 'w-1/2 h-1/2 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'} shadow bg-[#181825]`}>
+    <div onMouseUp={() => setIsDragging(false)} ref={windowRef} className={`rounded-xl flex flex-col transition-transform absolute ${isMaximized ? 'w-full h-full left-0 top-0' : 'w-1/2 min-h-1/2 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'} shadow bg-[#181825]`}>
       <div onMouseDown={() => {
         setIsMaximized(false);
         setIsDragging(true);

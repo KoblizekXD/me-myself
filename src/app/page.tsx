@@ -3,16 +3,20 @@
 import { Clock } from "@/components/clock";
 import { Tooltip } from "@/components/tooltip";
 import { Window } from "@/components/window";
-import { randomColor, randomFrom } from "@/utils/utils";
+import { randomColor } from "@/utils/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 const SummonButton = ({ className, children }: { className?: string; children?: ReactNode }) => {
-  const [color] = useState(randomColor());
+  const [color, setColor] = useState<string | null>('text-green-400');
+
+  useEffect(() => {
+    setColor(randomColor());
+  }, []);
 
   return (
-    <div className={`cursor-pointer underline ${className} ${color}`} suppressHydrationWarning>
+    <div className={`cursor-pointer underline ${color} ${className}`}>
       {children}
     </div>
   );
@@ -26,7 +30,7 @@ export default function Home() {
         <SummonButton>Skills</SummonButton>
         <SummonButton>Projects</SummonButton>
         <div className="ml-auto flex items-center gap-x-2 justify-center">
-          <Tooltip tooltip={<h1>Hi</h1>}>
+          <Tooltip tooltip={<h1>I live in UTC+1 by the way</h1>}>
             <Clock />
           </Tooltip>
         </div>
@@ -39,11 +43,11 @@ export default function Home() {
         </div>
         <div className="flex-1 flex flex-col gap-y-1 py-2 px-4">
           <h1 className={'font-bold text-2xl text-green-500'}># About me</h1>
-          <p>
-            Hi! I'm aa55h, a young developer from Czech Republic. Great to see you around!
+          <div>
+            Hi! I'm aa55h, a young developer from <Tooltip tooltip={<div>Yes</div>}>Czech Republic</Tooltip>. Great to see you around!
             This is my personal website where I share my projects and other stuff. Take 
             a look around if you want to know more about me!
-          </p>
+          </div>
           <h1 className={'font-bold text-2xl text-green-500'}># Notable Projects</h1>
           <p>
             Throughout my coding journey, I've worked on quite a few projects. Here are some of them:

@@ -16,7 +16,7 @@ export function Clock() {
   }, []);
 
   return (
-    <div>
+    <div suppressHydrationWarning>
       {time.toLocaleTimeString()}
     </div>
   );
