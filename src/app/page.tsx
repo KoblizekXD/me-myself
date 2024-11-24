@@ -1,6 +1,7 @@
 'use client';
 
 import { Clock } from "@/components/clock";
+import { Tooltip } from "@/components/tooltip";
 import { Window } from "@/components/window";
 import { randomColor, randomFrom } from "@/utils/utils";
 import Image from "next/image";
@@ -20,12 +21,14 @@ const SummonButton = ({ className, children }: { className?: string; children?: 
 export default function Home() {
   return (
     <main className="bg-[#1E1E2E] flex flex-col items-center w-screen h-screen">
-      <nav className="w-full font-semibold gap-x-4 py-2 flex px-2 bg-[#11111B] rounded-b">
+      <nav className="w-full font-semibold gap-x-4 py-2 flex select-none px-2 bg-[#11111B] rounded-b">
         <SummonButton>About me</SummonButton>
         <SummonButton>Skills</SummonButton>
         <SummonButton>Projects</SummonButton>
         <div className="ml-auto flex items-center gap-x-2 justify-center">
-          <Clock />
+          <Tooltip tooltip={<h1>Hi</h1>}>
+            <Clock />
+          </Tooltip>
         </div>
       </nav>
       <Window className="flex" title="aa55h - @koblizekxd">
