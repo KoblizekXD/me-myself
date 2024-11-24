@@ -3,13 +3,13 @@
 import { Clock } from "@/components/clock";
 import { Tooltip } from "@/components/tooltip";
 import { Window } from "@/components/window";
-import { randomColor } from "@/utils/utils";
+import { commandHandler, randomColor } from "@/utils/utils";
 import Image from "next/image";
 import Link from "next/link";
 import './globals.css'
 import { ReactNode, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDiscord, faLinkedin } from "@fortawesome/free-brands-svg-icons";
+import { faDiscord, faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 
 const SummonButton = ({ className, children, onClick }: { className?: string; children?: ReactNode, onClick?: () => void }) => {
   const [color, setColor] = useState<string | null>('text-red-400');
@@ -31,6 +31,7 @@ export default function Home() {
   const [contactsVisible, setContactsVisible] = useState<'visible' | 'hidden' | 'undefined'>('hidden');
   const [terminalVisible, setTerminalVisible] = useState<'visible' | 'hidden' | 'undefined'>('hidden');
   const [sentCommands, setSentCommands] = useState<string[]>([]);
+  const [topZIndex, setZIndex] = useState(1);
 
   return (
     <main className="bg-[#1E1E2E] flex flex-col items-center w-screen h-screen">
@@ -165,7 +166,7 @@ export default function Home() {
                 <FontAwesomeIcon size="2xl" icon={faDiscord} />
               </td>
               <td>
-                <a href="https://discord.com/users/292358214258825472" target="_blank" className="font-bold text-blue-500">@aa55h</a>
+                <h3 className="font-bold text-blue-500">@aa55h</h3>
               </td>
             </tr>
             <tr className="*:p-2">
@@ -174,6 +175,14 @@ export default function Home() {
               </td>
               <td>
                 <Link href="https://www.linkedin.com/in/jprokupek" target="_blank" className="font-bold text-blue-500">@jprokupek</Link>
+              </td>
+            </tr>
+            <tr className="*:p-2">
+              <td className="flex justify-center items-center">
+                <FontAwesomeIcon size="2xl" icon={faGithub} />
+              </td>
+              <td>
+                <Link href="https://www.github.com/KoblizekXD" target="_blank" className="font-bold text-blue-500">@aa55h</Link>
               </td>
             </tr>
           </tbody>
@@ -192,7 +201,9 @@ export default function Home() {
         </div>
         <form onSubmit={e => {
           e.preventDefault();
-          setSentCommands([...sentCommands, `[aa55h@arch ~]$ ${new FormData(e.currentTarget).get('command')}`]);
+          const command = new FormData(e.currentTarget).get('command') || '';
+          const res = commandHandler(command as string, sentCommands);
+          setSentCommands([...res.history, `[aa55h@arch ~]$ ${command}`, res.result]);
           e.currentTarget.reset();
         }} action={''} className="flex gap-x-2">
           [aa55h@arch ~]$

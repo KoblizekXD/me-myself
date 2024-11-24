@@ -9,9 +9,10 @@ interface WindowProps {
   visible?: 'visible' | 'hidden' | 'undefined';
   visiblityChanged?: (visible: 'visible' | 'hidden') => void;
   keyEvent?: (e: KeyboardEvent) => void;
+  zIndex?: number;
 }
 
-export function Window({ title = "Window", children, className, visible = 'undefined', visiblityChanged, keyEvent }: WindowProps) {
+export function Window({ title = "Window", children, className, zIndex = 1, visible = 'undefined', visiblityChanged, keyEvent }: WindowProps) {
   const [isMaximized, setIsMaximized] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
@@ -20,7 +21,9 @@ export function Window({ title = "Window", children, className, visible = 'undef
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (isDragging && windowRef.current) {
-        windowRef.current.style.left = `${e.clientX + (windowRef.current.clientWidth / 2) - 10}px`;
+        // TODO: Fix this window dragging
+        const left = parseInt(windowRef.current.style.left) - windowRef.current.clientWidth / 2;
+        windowRef.current.style.left = `${e.clientX + (windowRef.current.clientWidth / 2) - 200}px`;
         windowRef.current.style.top = `${e.clientY + (windowRef.current.clientHeight / 2) - 10}px`;
       }
     };
@@ -42,6 +45,16 @@ export function Window({ title = "Window", children, className, visible = 'undef
   }, [isDragging]);
 
   useEffect(() => {
+    if (isMaximized && windowRef.current) {
+      windowRef.current.style.left = '0';
+      windowRef.current.style.top = '0';
+    } else {
+      windowRef.current?.style.removeProperty('left');
+      windowRef.current?.style.removeProperty('top');
+    }
+  }, [isMaximized])
+
+  useEffect(() => {
     if (visiblityChanged) {
       visiblityChanged(hidden ? 'hidden' : 'visible');
     }
@@ -56,7 +69,7 @@ export function Window({ title = "Window", children, className, visible = 'undef
   }, [visible]);
 
   return (
-    <div onMouseUp={() => setIsDragging(false)} ref={windowRef} className={`rounded-xl border border-[#11111B] duration-200 ${hidden ? 'opacity-0 invisible' : 'opacity-100 visible'} flex flex-col transition-[opacity,visibility] absolute ${isMaximized ? 'w-full h-full left-0 top-0' : 'w-1/2 min-h-1/2 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'} select-none shadow bg-[#181825]`}>
+    <div style={{zIndex: zIndex}} onMouseUp={() => setIsDragging(false)} ref={windowRef} className={`rounded-xl border border-[#11111B] duration-200 ${hidden ? 'opacity-0 invisible' : 'opacity-100 visible'} flex flex-col transition-[opacity,visibility] absolute ${isMaximized ? 'w-full h-full left-0 top-0' : 'w-1/2 min-h-1/2 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'} select-none shadow bg-[#181825]`}>
       <div onMouseDown={() => {
         setIsMaximized(false);
         setIsDragging(true);
